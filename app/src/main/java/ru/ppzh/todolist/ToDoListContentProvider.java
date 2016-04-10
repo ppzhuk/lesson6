@@ -1,4 +1,4 @@
-package com.csc.lesson6;
+package ru.ppzh.todolist;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,49 +9,42 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-public class ReaderContentProvider extends ContentProvider {
-    public static final String AUTHORITY = "com.csc.lesson6";
+public class ToDoListContentProvider extends ContentProvider {
+    public static final String TAG = "ToDoListContentProvider";
+
+    public static final String AUTHORITY = "ru.ppzh.todolist.provider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
-    public static final int ENTRIES = 1;
-    public static final int ENTRIES_ID = 2;
+    public static final int TASKS = 1;
+    public static final int TASKS_ID = 2;
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher.addURI(AUTHORITY, "/entries", ENTRIES);
-        uriMatcher.addURI(AUTHORITY, "/entries/#", ENTRIES_ID);
+        uriMatcher.addURI(AUTHORITY, "/tasks", TASKS);
+        uriMatcher.addURI(AUTHORITY, "/tasks/#", TASKS_ID);
     }
 
-    private ReaderOpenHelper helper;
+    private ToDoListDatabaseHelper helper;
 
-    public ReaderContentProvider() {
-        helper = new ReaderOpenHelper(getContext());
-    }
-
-    @Override
-    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    @Override
-    public String getType(@NonNull Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
-        // at the given URI.
-        throw new UnsupportedOperationException("Not yet implemented");
+    public ToDoListContentProvider() {
+        helper = new ToDoListDatabaseHelper(getContext());
     }
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
+
+        Log.d(TAG, "Insertion: " + values.toString());
+
         int match = uriMatcher.match(uri);
         String tableName;
         switch (match) {
-            case ENTRIES:
-                tableName = FeedsTable.TABLE_NAME;
+            case TASKS:
+                tableName = TasksTable.TABLE_NAME;
                 break;
-            case ENTRIES_ID:
+            case TASKS_ID:
             default:
                 throw new UnsupportedOperationException("Not yet implemented");
         }
@@ -63,18 +56,21 @@ public class ReaderContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        helper = new ReaderOpenHelper(getContext());
+        helper = new ToDoListDatabaseHelper(getContext());
         return true;
     }
 
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
+
+        Log.d(TAG, "Query: ");
+
         int match = uriMatcher.match(uri);
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         switch (match) {
-            case ENTRIES:
-                builder.setTables(FeedsTable.TABLE_NAME);
+            case TASKS:
+                builder.setTables(TasksTable.TABLE_NAME);
                 break;
             default:
                 throw new UnsupportedOperationException("Not yet implemented");
@@ -85,10 +81,20 @@ public class ReaderContentProvider extends ContentProvider {
         return cursor;
     }
 
+
+    @Override
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public String getType(@NonNull Uri uri) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

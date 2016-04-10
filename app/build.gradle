@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.csc.lesson6"
+        applicationId "ru.ppzh.todolist"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
