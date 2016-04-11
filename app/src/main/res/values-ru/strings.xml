@@ -1,0 +1,8 @@
+<resources>
+    <string name="add_task">Добавить</string>
+    <string name="add_task_hint">Введите текст задачи</string>
+    <string name="fav_description">Иконка избранного</string>
+    <string name="favorite">Избранная</string>
+    <string name="completed">Выполненая</string>
+    <string name="save">Сохранить</string>
+</resources>

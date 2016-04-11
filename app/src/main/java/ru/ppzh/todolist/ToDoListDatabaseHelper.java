@@ -15,9 +15,9 @@ public class ToDoListDatabaseHelper extends SQLiteOpenHelper {
                     + " ("
                     + TasksTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + TasksTable.COLUMN_TEXT + " TEXT, "
-                    + TasksTable.COLUMN_FAVORITE + " TEXT, "
-                    + TasksTable.COLUMN_COMPLETED + " TEXT, "
-                    + TasksTable.COLUMN_DATE + " TEXT"
+                    + TasksTable.COLUMN_FAVORITE + " BOOLEAN, "
+                    + TasksTable.COLUMN_COMPLETED + " BOOLEAN, "
+                    + TasksTable.COLUMN_DATE + " DATETIME"
                     + ")";
 
     public ToDoListDatabaseHelper(Context context) {

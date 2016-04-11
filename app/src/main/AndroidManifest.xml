@@ -18,11 +18,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".TaskEditActivity"/>
+
         <provider
             android:name=".ToDoListContentProvider"
             android:authorities="ru.ppzh.todolist.provider"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="false"/>
     </application>
 
 </manifest>

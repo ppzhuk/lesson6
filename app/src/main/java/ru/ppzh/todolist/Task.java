@@ -5,19 +5,20 @@ import android.support.annotation.NonNull;
 
 import java.util.Date;
 
+
 public class Task implements Comparable<Task> {
     private long id;
     private boolean completed;
     private boolean favorite;
     private String text;
-    private Date date;
+    private String date;
 
     Task() {
         id = -1;
         completed = false;
         favorite = false;
         this.text = "";
-        date = new Date();
+        date = new Date().toString();
     }
 
     Task(String text) {
@@ -52,11 +53,11 @@ public class Task implements Comparable<Task> {
         this.completed = completed;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

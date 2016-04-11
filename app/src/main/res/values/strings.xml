@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">To Do</string>
     <string name="add_task">Add</string>
-    <string name="add_task_hint">Enter new task</string>
+    <string name="add_task_hint">Enter task text</string>
+    <string name="fav_description">Favorite icon</string>
+    <string name="favorite">Favorite</string>
+    <string name="completed">Completed</string>
+    <string name="save">Save</string>
 </resources>

@@ -33,6 +33,13 @@ public class ToDoListContentProvider extends ContentProvider {
         helper = new ToDoListDatabaseHelper(getContext());
     }
 
+
+    @Override
+    public boolean onCreate() {
+        helper = new ToDoListDatabaseHelper(getContext());
+        return true;
+    }
+
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
 
@@ -55,16 +62,10 @@ public class ToDoListContentProvider extends ContentProvider {
     }
 
     @Override
-    public boolean onCreate() {
-        helper = new ToDoListDatabaseHelper(getContext());
-        return true;
-    }
-
-    @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
 
-        Log.d(TAG, "Query: ");
+        Log.d(TAG, "Query");
 
         int match = uriMatcher.match(uri);
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
@@ -81,20 +82,36 @@ public class ToDoListContentProvider extends ContentProvider {
         return cursor;
     }
 
-
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    public String getType(@NonNull Uri uri) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public int update(@NonNull Uri uri, ContentValues values, String selection,
+                      String[] selectionArgs) {
+
+        Log.d(TAG, "Updating: " + values.toString());
+
+        int match = uriMatcher.match(uri);
+        switch (match) {
+            case TASKS_ID:
+                if (selection == null) {
+                    selection = "";
+                }
+                selection = selection + "_ID = " + uri.getLastPathSegment();
+                break;
+            default:
+                throw new UnsupportedOperationException("Not yet implemented");
+        }
+        int affected =
+                helper.getWritableDatabase().update(TasksTable.TABLE_NAME, values, selection, selectionArgs);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return affected;
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection,
-                      String[] selectionArgs) {
+    public String getType(@NonNull Uri uri) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
